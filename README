@@ -13,9 +13,9 @@ The interface looks like this:
 
 	http://localhost:8003/get_ticket
 
-        http://localhost:8003/check_ticket?ticket=TICKETID
+	http://localhost:8003/check_ticket?ticket=TICKETID
 
-        http://localhost:8003/mark_ticket_completed?ticket=TICKETID
+	http://localhost:8003/mark_ticket_completed?ticket=TICKETID
 
 All calls return plain text. The 'get_ticket' method returns a ticket. The check
 ticket returns (UNKNOWN, PENDING, COMPLETED). The 'mark_ticket_completed' method
