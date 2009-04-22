@@ -33,9 +33,15 @@ running this on a public-facing host. Buyer beware.
 
 $> ticketserver/__init__.py --scheme s3 --port 9999 --s3_config ~/.api/aws.cfg --s3_bucket ticketserver
 
+# EXAMPLE (S3 config file)
+
+[aws]
+access_key=AMAZON_WEBSERVICES_ACCESSKEY
+secret_key=AMAZON_WEBSERVICES_SECRETKEY
+
 # EXAMPLE (from your code)
 
-ts = ticketserver('s3://secret:key@bucket')
+ts = ticketserver('s3://key:secret@bucket')
 
 ticket = ts.get_ticket()
 
