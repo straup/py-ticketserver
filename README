@@ -31,7 +31,7 @@ running this on a public-facing host. Buyer beware.
 
 # EXAMPLE (CLI usage)
 
-$> ticketserver/__init__.py -s s3 --s3_config ~/.api/aws.cfg --s3_bucket ticketserver
+$> ticketserver/__init__.py --scheme s3 --port 9999 --s3_config ~/.api/aws.cfg --s3_bucket ticketserver
 
 # EXAMPLE (from your code)
 
