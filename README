@@ -1,0 +1,61 @@
+This is a bare-bones ticket server that runs as a stand-alone HTTP service.
+
+It allows applications to request a new ticket, check the status of an existing
+ticket and mark a ticket as completed. It is not sexy. It does not make
+ponies. It makes tickets. What you do with them is your business but presumably
+you'd use to keep track of long(ish) running tasks so that clients can
+periodically poll to see if they've been completed.
+
+It uses the Shove module to provide a variety of backends for storing tickets;
+as of this writing only in-memory and Amazon S3 backends are supported.
+
+The interface looks like this:
+
+	http://localhost:8003/get_ticket
+
+        http://localhost:8003/check_ticket?ticket=TICKETID
+
+        http://localhost:8003/mark_ticket_completed?ticket=TICKETID
+
+All calls return plain text. The 'get_ticket' method returns a ticket. The check
+ticket returns (UNKNOWN, PENDING, COMPLETED). The 'mark_ticket_completed' method
+returns (OK, FAIL).
+
+Ticket IDs are generated as UUIDs and, by default, are purged the first time
+they are checked after having been marked as completed.
+
+There is (currently) no authentication model. It's not expected that you'll be
+running this on a public-facing host. Buyer beware.
+
+--
+
+# EXAMPLE (CLI usage)
+
+$> ticketserver/__init__.py -s s3 --s3_config ~/.api/aws.cfg --s3_bucket ticketserver
+
+# EXAMPLE (from your code)
+
+ts = ticketserver('s3://secret:key@bucket')
+
+ticket = ts.get_ticket()
+
+ts.mark_ticket_completed(ticket)
+
+status = ts.check_ticket(ticket)
+
+--
+
+# IMPORTANT
+
+This package also uses the Servable WSGI wrapper library which is great except
+for the part where you will currently need to comment out line 104 of
+servable.py per this thread:
+
+http://code.google.com/p/servable/issues/detail?id=1
+
+--
+
+# REQUIREMENTS
+
+http://pypi.python.org/pypi/shove
+http://pypi.python.org/pypi/servable/
